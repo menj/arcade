@@ -6,8 +6,8 @@
   font-display: swap;
 }
 
-/* Sabon Next LT (Monotype, licensed): readable text. The file is NOT in the repo (see fonts/README.md);
-   if it is missing the browser falls back to Special Elite. */
+/* Sabon Next LT (Monotype, licensed, see fonts/README.md): readable text.
+   If the file is missing the browser falls back to Special Elite. */
 @font-face {
   font-family: "Sabon Next LT";
   src: url("../fonts/SabonNextLT.woff2") format("woff2");
