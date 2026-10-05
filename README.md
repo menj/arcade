@@ -13,6 +13,7 @@ js/theme.js       applies saved theme before first paint
 js/hub.js         builds the card row and the settings dialog
 js/ads.js         Google AdSense: consent, lazy-loaded ad slots (off by default)
 css/ads.css       ad boxes and the consent bar
+fonts/            Special Elite (WOFF2), see fonts/README.md
 img/              favicon, share image, card thumbnails (img/cards/<slug>.png)
 requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
