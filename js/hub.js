@@ -130,6 +130,7 @@
           list.forEach(function (g) {
             grid.appendChild(g.status === 'live' ? liveCard(g, s[g.id]) : soonCard(g));
           });
+          ArcadeAds.init(cfg.ads, grid);
         });
       })
       .catch(function () {
@@ -167,9 +168,10 @@
     motion.addEventListener('change', function () { ArcadeTheme.set({ motion: motion.checked }); });
     text.addEventListener('change', function () { ArcadeTheme.set({ text: text.checked }); });
 
-    // tabs: click, and left/right arrows
-    var tabs = [$('tab-look'), $('tab-access')];
-    var panels = [$('panel-look'), $('panel-access')];
+    // tabs: click, and left/right arrows (the Privacy tab only exists when ads are on)
+    var tabs = [$('tab-look'), $('tab-access'), $('tab-privacy')];
+    var panels = [$('panel-look'), $('panel-access'), $('panel-privacy')];
+    function visible() { return tabs.filter(function (t) { return !t.hidden; }); }
     function select(i) {
       tabs.forEach(function (t, j) {
         t.setAttribute('aria-selected', j === i ? 'true' : 'false');
@@ -181,8 +183,9 @@
     tabs.forEach(function (t, i) {
       t.addEventListener('click', function () { select(i); });
       t.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight') { e.preventDefault(); select((i + 1) % tabs.length); }
-        if (e.key === 'ArrowLeft') { e.preventDefault(); select((i + tabs.length - 1) % tabs.length); }
+        var v = visible(), at = v.indexOf(t);
+        if (e.key === 'ArrowRight') { e.preventDefault(); select(tabs.indexOf(v[(at + 1) % v.length])); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); select(tabs.indexOf(v[(at + v.length - 1) % v.length])); }
       });
     });
 

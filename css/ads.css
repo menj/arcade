@@ -1,0 +1,25 @@
+/* Arcade hub: ad slots and the consent bar. Uses the theme variables from hub.css.
+   Every ad box has a reserved height so the page does not jump when an ad loads. */
+
+.ad-slot { display: block; width: 100%; overflow: hidden; }
+.ad-banner-wrap { padding-bottom: clamp(100px, 20vh, 180px); margin-top: calc(-1 * clamp(70px, 14vh, 140px)); }
+.ad-banner { min-height: 100px; max-width: 728px; margin-inline: auto; border: 1px dashed var(--line); border-radius: var(--radius); }
+.card.ad { cursor: default; }
+.card.ad .card-head { color: var(--muted); }
+.ad-card { min-height: 250px; flex: 1; }
+
+/* consent bar */
+.consent {
+  position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom, 0)); z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px;
+  max-width: 760px; margin-inline: auto; padding: 14px 18px;
+  background: var(--surface); color: var(--text); border: 1px solid var(--accent-2); border-radius: 12px;
+  box-shadow: var(--shadow); font-size: 0.85rem; line-height: 1.5;
+}
+.consent p { margin: 0; flex: 1 1 280px; color: var(--muted); }
+.consent-actions { display: flex; gap: 8px; }
+.consent .ghost {
+  padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: transparent;
+  color: var(--text); font: inherit; cursor: pointer;
+}
+.consent .ghost:hover { border-color: var(--accent-2); }

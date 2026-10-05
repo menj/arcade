@@ -31,5 +31,19 @@
       "title": "Coming soon",
       "tagline": "A new adventure awaits."
     }
-  ]
+  ],
+  "ads": {
+    "enabled": false,
+    "client": "",
+    "slots": {
+      "banner": {
+        "id": "",
+        "enabled": true
+      },
+      "card": {
+        "id": "",
+        "enabled": true
+      }
+    }
+  }
 }

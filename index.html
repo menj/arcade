@@ -15,6 +15,7 @@
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="stylesheet" href="css/hub.css">
+  <link rel="stylesheet" href="css/ads.css">
   <script src="js/theme.js"></script>
 </head>
 <body>
@@ -57,6 +58,7 @@
       <div class="tabs" role="tablist" aria-label="Settings sections">
         <button type="button" role="tab" id="tab-look" aria-controls="panel-look" aria-selected="true">Appearance</button>
         <button type="button" role="tab" id="tab-access" aria-controls="panel-access" aria-selected="false" tabindex="-1">Accessibility</button>
+        <button type="button" role="tab" id="tab-privacy" aria-controls="panel-privacy" aria-selected="false" tabindex="-1" hidden>Privacy</button>
       </div>
       <div class="dlg-body">
         <div role="tabpanel" id="panel-look" aria-labelledby="tab-look">
@@ -69,11 +71,23 @@
           <label class="switch"><input type="checkbox" id="opt-motion"><span>Reduce motion</span></label>
           <label class="switch"><input type="checkbox" id="opt-text"><span>Larger text</span></label>
         </div>
+        <div role="tabpanel" id="panel-privacy" aria-labelledby="tab-privacy" hidden>
+          <label class="switch"><input type="checkbox" id="opt-ads"><span>Show ads (helps keep the arcade free)</span></label>
+        </div>
       </div>
       <footer class="dlg-foot"><button class="btn" value="close">Done</button></footer>
     </form>
   </dialog>
 
+  <div id="consent" class="consent" role="region" aria-label="Ad choices" hidden>
+    <p>This arcade is free thanks to ads. Allow ads from Google AdSense? You can change this any time in Settings.</p>
+    <div class="consent-actions">
+      <button type="button" class="ghost" id="consent-no">No thanks</button>
+      <button type="button" class="btn" id="consent-yes">Allow ads</button>
+    </div>
+  </div>
+
+  <script src="js/ads.js"></script>
   <script src="js/hub.js"></script>
 </body>
 </html>
