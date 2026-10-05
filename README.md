@@ -8,9 +8,11 @@ Static HTML/CSS/JS, no build step, no backend.
 ```
 index.html        page shell (settings dialog included)
 games.json        site info + the list of games
-css/hub.css       layout and colour schemes (CSS variables)
+css/hub.css       retro-neon layout and colour schemes (CSS variables)
 js/theme.js       applies saved theme before first paint
-js/hub.js         builds the grid, filters, search, settings dialog
+js/hub.js         builds the card row and the settings dialog
+js/ads.js         Google AdSense: consent, lazy-loaded ad slots (off by default)
+css/ads.css       ad boxes and the consent bar
 img/              favicon, share image, card thumbnails (img/cards/<slug>.png)
 requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
@@ -24,16 +26,15 @@ Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/` 
 
 ```json
 { "id": "pixel-run", "title": "Pixel Run", "status": "live", "path": "pixel-run/",
-  "category": "Runners", "tagline": "…", "badges": ["…"], "thumbnail": "img/cards/pixel-run.png" }
+  "tagline": "…", "thumbnail": "img/cards/pixel-run.png" }
 ```
 
-Use `"status": "soon"` for a placeholder tile. The hub fetches `<path>game.json` and
-lets its `title`, `tagline`, `badges` and `thumbnail` override the entry above, so a
-game can keep its own blurb current. If that file is missing, the `games.json` data is used.
-Category filter tabs appear automatically once there are two or more categories.
-A game's `game.json` can also supply `summary`, `tags` and `features` (shown as badges when
-there is no `badges` list). Tags become chips and, with the title, tagline and summary, feed
-the search box. Paths in `game.json` (thumbnail etc.) are relative to the game's folder.
+Use `"status": "soon"` for a placeholder tile.
+The heading text (eyebrow, title, tagline) comes from `site` in `games.json`. The hub fetches `<path>game.json` and lets its `title`, `tagline` and `thumbnail` override
+the entry above, so a game can keep its own blurb current. If that file is missing, the
+`games.json` data is used. Each card shows the title, thumbnail, tagline and a Play link.
+Tags, badges, categories and search are not used. Paths in `game.json` (thumbnail etc.) are
+relative to the game's folder.
 
 ## Best scores
 
@@ -53,6 +54,23 @@ Settings (gear icon) are tabbed: **Appearance** (Auto, Midnight, Daylight, Ocean
 and **Accessibility** (reduce motion, larger text). Saved under `arcade.hub.settings`.
 Add a scheme by defining a `[data-theme="name"]` block in `css/hub.css` and listing it in
 `SCHEMES` in `js/hub.js`.
+
+## Ads (Google AdSense)
+
+Off by default. To switch on, edit the `ads` block in `games.json`:
+
+```json
+"ads": { "enabled": true, "client": "ca-pub-0000000000000000",
+         "slots": { "banner": { "id": "1234567890", "enabled": true },
+                    "card":   { "id": "2345678901", "enabled": true } } }
+```
+
+- `client` is your AdSense publisher ID; each slot `id` is an ad unit ID from AdSense. A slot with no valid ID is skipped, and `"enabled": false` turns a slot off.
+- Slots: `card` is a "Sponsored" tile at the end of the card row; `banner` sits below it.
+- Nothing is requested from Google until the visitor taps **Allow ads** in the consent bar. Their choice is saved on their device and can be changed under Settings > Privacy. Ads load lazily, in boxes with a reserved height so the page does not jump.
+- If you have visitors in the EEA, UK or Switzerland, AdSense requires a Google-certified consent platform (e.g. Funding Choices in your AdSense account). The built-in bar is a simple opt-in and does not replace one.
+- Put `ads.txt` at the domain root (`https://menj.buzz/ads.txt`), not in this repo: `google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0`.
+- Each game is its own repo and manages its own ad slots; the hub never controls them.
 
 ## Hosting
 

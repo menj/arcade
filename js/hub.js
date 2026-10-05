@@ -11,17 +11,16 @@
   'use strict';
 
   var SCHEMES = [
-    { id: 'auto',     name: 'Automatic', bg: '#0d0221', accent: '#f6f4fb' },
-    { id: 'midnight', name: 'Midnight',  bg: '#0d0221', accent: '#ff3cac' },
+    { id: 'auto',     name: 'Automatic', bg: '#0a0820', accent: '#f6f4fb' },
+    { id: 'midnight', name: 'Midnight',  bg: '#0a0820', accent: '#ff3c6e' },
     { id: 'daylight', name: 'Daylight',  bg: '#f6f4fb', accent: '#c4167f' },
-    { id: 'ocean',    name: 'Ocean',     bg: '#04141f', accent: '#2ee6d6' },
-    { id: 'sunset',   name: 'Sunset',    bg: '#1a0b12', accent: '#ff8a3d' }
+    { id: 'ocean',    name: 'Ocean',     bg: '#03121d', accent: '#2ee6d6' },
+    { id: 'sunset',   name: 'Sunset',    bg: '#1a0b12', accent: '#ff9a3d' }
   ];
 
   var $ = function (id) { return document.getElementById(id); };
   var grid = $('grid');
-  var state = { category: '', tag: '', q: '' };
-
+  
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -31,16 +30,13 @@
   function stats() {
     try { return JSON.parse(localStorage.getItem('arcade.stats') || '{}') || {}; } catch (e) { return {}; }
   }
-  function nice(t) { return String(t).replace(/-/g, ' ').replace(/^./, function (c) { return c.toUpperCase(); }); }
   function safeUrl(u) { return /^https?:\/\//i.test(u || '') ? u : ''; }
 
   /* ---------- cards ---------- */
   function liveCard(g, mine) {
     var card = el('a', 'card');
     card.href = g.path;
-    card.dataset.category = g.category || '';
-    card.dataset.tags = (g.tags || []).join('|');
-    card.dataset.hay = [g.title, g.tagline, g.summary, (g.tags || []).join(' ')].join(' ').toLowerCase();
+    card.appendChild(el('div', 'card-head', g.title));
 
     var thumb = el('div', 'thumb');
     function placeholder() {
@@ -65,21 +61,14 @@
     card.appendChild(thumb);
 
     var body = el('div', 'body');
-    body.appendChild(el('h3', '', g.title));
     if (g.tagline) body.appendChild(el('p', '', g.tagline));
-    if (g.badges && g.badges.length) {
-      var chips = el('ul', 'chips');
-      g.badges.slice(0, 5).forEach(function (b) { chips.appendChild(el('li', '', b)); });
-      body.appendChild(chips);
-    }
     var meta = el('div', 'meta');
     if (mine && mine.best > 0) {
-      var b = el('span', 'best', 'Your best: ');
+      var b = el('span', 'best', 'Your best ');
       b.appendChild(el('strong', '', String(mine.best)));
-      if (mine.plays > 1) b.appendChild(document.createTextNode(' \u00b7 ' + mine.plays + ' plays'));
       meta.appendChild(b);
     }
-    meta.appendChild(el('span', 'play', 'Play ›'));
+    meta.appendChild(el('span', 'play', 'Play \u203a'));
     body.appendChild(meta);
     card.appendChild(body);
     card.setAttribute('aria-label', g.title + '. ' + (g.tagline || '') + ' Play.');
@@ -88,86 +77,17 @@
 
   function soonCard(g) {
     var card = el('div', 'card soon');
-    card.dataset.category = '*';
-    card.dataset.soon = '1';
+    card.appendChild(el('div', 'card-head', g.title || 'Coming soon'));
     var thumb = el('div', 'thumb');
     thumb.appendChild(el('span', 'q', '?'));
     card.appendChild(thumb);
     var body = el('div', 'body');
-    body.appendChild(el('h3', '', g.title || 'Coming soon'));
     if (g.tagline) body.appendChild(el('p', '', g.tagline));
+    var meta = el('div', 'meta');
+    meta.appendChild(el('span', 'play', 'Stay tuned'));
+    body.appendChild(meta);
     card.appendChild(body);
     return card;
-  }
-
-  /* ---------- filters: category tabs, tag chips and search all combine ---------- */
-  function applyFilters() {
-    var shown = 0;
-    var narrowed = !!(state.category || state.tag || state.q);
-    grid.querySelectorAll('.card').forEach(function (c) {
-      var show;
-      if (c.dataset.soon) {
-        show = !narrowed; // placeholders only show on the unfiltered grid
-      } else {
-        show = (!state.category || c.dataset.category === state.category) &&
-               (!state.tag || ('|' + c.dataset.tags + '|').indexOf('|' + state.tag + '|') > -1) &&
-               (!state.q || c.dataset.hay.indexOf(state.q) > -1);
-        if (show) shown++;
-      }
-      c.hidden = !show;
-    });
-    $('empty').hidden = shown !== 0;
-  }
-
-  function buildFilters(games) {
-    var live = games.filter(function (g) { return g.status === 'live'; });
-
-    var cats = [];
-    live.forEach(function (g) { if (g.category && cats.indexOf(g.category) < 0) cats.push(g.category); });
-    var box = $('filters');
-    if (cats.length < 2) { box.hidden = true; }
-    else {
-      box.hidden = false;
-      ['All'].concat(cats).forEach(function (name, i) {
-        var b = el('button', '', name);
-        b.type = 'button';
-        b.setAttribute('role', 'tab');
-        b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-        b.addEventListener('click', function () {
-          box.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
-          state.category = i === 0 ? '' : name;
-          applyFilters();
-        });
-        box.appendChild(b);
-      });
-    }
-
-    var all = {};
-    live.forEach(function (g) { (g.tags || []).forEach(function (t) { all[t] = true; }); });
-    var names = Object.keys(all).sort();
-    var tagBox = $('tags');
-    if (live.length < 2 || !names.length) { tagBox.hidden = true; }
-    else {
-      tagBox.hidden = false;
-      names.forEach(function (t) {
-        var b = el('button', '', nice(t));
-        b.type = 'button';
-        b.setAttribute('aria-pressed', 'false');
-        b.addEventListener('click', function () {
-          state.tag = state.tag === t ? '' : t;
-          tagBox.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-          if (state.tag) b.setAttribute('aria-pressed', 'true');
-          applyFilters();
-        });
-        tagBox.appendChild(b);
-      });
-    }
-
-    var search = $('search');
-    if (live.length < 2) { search.parentNode.hidden = true; }
-    else {
-      search.addEventListener('input', function () { state.q = search.value.trim().toLowerCase(); applyFilters(); });
-    }
   }
 
   /* ---------- load ---------- */
@@ -179,10 +99,6 @@
         var g = Object.assign({}, entry);
         if (m.title) g.title = m.title;
         if (m.tagline) g.tagline = m.tagline;
-        if (m.summary) g.summary = m.summary;
-        if (Array.isArray(m.tags)) g.tags = m.tags;
-        if (Array.isArray(m.badges) && m.badges.length) g.badges = m.badges;
-        else if (Array.isArray(m.features) && m.features.length) g.badges = m.features.map(nice);
         g.fallbackThumb = entry.thumbnail;
         g.thumb = m.thumbnail ? entry.path + m.thumbnail : entry.thumbnail;
         return g;
@@ -199,7 +115,9 @@
       .then(function (r) { if (!r.ok) throw new Error('games.json ' + r.status); return r.json(); })
       .then(function (cfg) {
         var site = cfg.site || {};
-        if (site.name) { $('site-name').textContent = site.name; document.title = site.name + ' — Free Browser Games'; }
+        if (site.name) document.title = site.name + ' \u2014 Free Browser Games';
+        if (site.eyebrow) $('eyebrow').textContent = site.eyebrow;
+        if (site.title) $('hero-title').textContent = site.title;
         if (site.tagline) $('hero-tagline').textContent = site.tagline;
         if (site.host) $('foot-host').textContent = site.host;
         var tip = safeUrl(site.tipUrl);
@@ -212,8 +130,7 @@
           list.forEach(function (g) {
             grid.appendChild(g.status === 'live' ? liveCard(g, s[g.id]) : soonCard(g));
           });
-          buildFilters(list);
-          applyFilters();
+          ArcadeAds.init(cfg.ads, grid);
         });
       })
       .catch(function () {
@@ -251,9 +168,10 @@
     motion.addEventListener('change', function () { ArcadeTheme.set({ motion: motion.checked }); });
     text.addEventListener('change', function () { ArcadeTheme.set({ text: text.checked }); });
 
-    // tabs: click, and left/right arrows
-    var tabs = [$('tab-look'), $('tab-access')];
-    var panels = [$('panel-look'), $('panel-access')];
+    // tabs: click, and left/right arrows (the Privacy tab only exists when ads are on)
+    var tabs = [$('tab-look'), $('tab-access'), $('tab-privacy')];
+    var panels = [$('panel-look'), $('panel-access'), $('panel-privacy')];
+    function visible() { return tabs.filter(function (t) { return !t.hidden; }); }
     function select(i) {
       tabs.forEach(function (t, j) {
         t.setAttribute('aria-selected', j === i ? 'true' : 'false');
@@ -265,8 +183,9 @@
     tabs.forEach(function (t, i) {
       t.addEventListener('click', function () { select(i); });
       t.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight') { e.preventDefault(); select((i + 1) % tabs.length); }
-        if (e.key === 'ArrowLeft') { e.preventDefault(); select((i + tabs.length - 1) % tabs.length); }
+        var v = visible(), at = v.indexOf(t);
+        if (e.key === 'ArrowRight') { e.preventDefault(); select(tabs.indexOf(v[(at + 1) % v.length])); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); select(tabs.indexOf(v[(at + v.length - 1) % v.length])); }
       });
     });
 

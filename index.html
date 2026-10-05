@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Arcade Hub — Free Browser Games</title>
   <meta name="description" content="A small arcade of free browser games. Pick a game, beat your best score and come back for the daily challenge.">
-  <meta name="theme-color" content="#0d0221">
+  <meta name="theme-color" content="#0a0820">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Arcade Hub">
   <meta property="og:description" content="Small games. Big fun. Free to play in your browser.">
@@ -15,44 +15,28 @@
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="stylesheet" href="css/hub.css">
+  <link rel="stylesheet" href="css/ads.css">
   <script src="js/theme.js"></script>
 </head>
 <body>
   <a class="skip" href="#games">Skip to the games</a>
 
-  <header class="top">
-    <div class="wrap top-row">
-      <a class="brand" href="./" aria-label="Arcade Hub home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-name" id="site-name">Arcade Hub</span>
-      </a>
-      <button id="open-settings" class="icon-btn" type="button" aria-haspopup="dialog" aria-label="Settings">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.7 7.7 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.7 7.7 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1l.4 2.6h4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
-      </button>
-    </div>
-  </header>
+  <button id="open-settings" class="icon-btn settings-btn" type="button" aria-haspopup="dialog" aria-label="Settings">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.7 7.7 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.7 7.7 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1l.4 2.6h4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+  </button>
 
   <main>
     <section class="hero wrap">
-      <h1 id="hero-title">Pick a game.<br>Beat your best.</h1>
-      <p id="hero-tagline" class="lede">Small games. Big fun. Free to play in your browser.</p>
+      <p class="eyebrow" id="eyebrow">Now playing</p>
+      <h1 id="hero-title">Arcade Hub</h1>
+      <div class="rule" aria-hidden="true"></div>
+      <p id="hero-tagline" class="lede">Select your game</p>
     </section>
 
-    <section class="wrap" id="games" aria-labelledby="games-heading">
-      <div class="section-head">
-        <h2 id="games-heading">Games</h2>
-        <div id="filters" class="tabs" role="tablist" aria-label="Filter games" hidden></div>
-      </div>
-      <div class="finder">
-        <label class="search"><span class="sr">Search games</span>
-          <input id="search" type="search" placeholder="Search games" autocomplete="off">
-        </label>
-        <div id="tags" class="chipbar" role="group" aria-label="Filter by tag" hidden></div>
-      </div>
+    <section class="wrap" id="games" aria-label="Games">
       <div id="grid" class="grid" aria-live="polite">
         <p class="loading">Loading games…</p>
       </div>
-      <p id="empty" class="loading" hidden>No games match. Clear the search or pick another tag.</p>
       <noscript><p class="loading">The arcade needs JavaScript to list the games.</p></noscript>
     </section>
   </main>
@@ -74,6 +58,7 @@
       <div class="tabs" role="tablist" aria-label="Settings sections">
         <button type="button" role="tab" id="tab-look" aria-controls="panel-look" aria-selected="true">Appearance</button>
         <button type="button" role="tab" id="tab-access" aria-controls="panel-access" aria-selected="false" tabindex="-1">Accessibility</button>
+        <button type="button" role="tab" id="tab-privacy" aria-controls="panel-privacy" aria-selected="false" tabindex="-1" hidden>Privacy</button>
       </div>
       <div class="dlg-body">
         <div role="tabpanel" id="panel-look" aria-labelledby="tab-look">
@@ -86,11 +71,23 @@
           <label class="switch"><input type="checkbox" id="opt-motion"><span>Reduce motion</span></label>
           <label class="switch"><input type="checkbox" id="opt-text"><span>Larger text</span></label>
         </div>
+        <div role="tabpanel" id="panel-privacy" aria-labelledby="tab-privacy" hidden>
+          <label class="switch"><input type="checkbox" id="opt-ads"><span>Show ads (helps keep the arcade free)</span></label>
+        </div>
       </div>
       <footer class="dlg-foot"><button class="btn" value="close">Done</button></footer>
     </form>
   </dialog>
 
+  <div id="consent" class="consent" role="region" aria-label="Ad choices" hidden>
+    <p>This arcade is free thanks to ads. Allow ads from Google AdSense? You can change this any time in Settings.</p>
+    <div class="consent-actions">
+      <button type="button" class="ghost" id="consent-no">No thanks</button>
+      <button type="button" class="btn" id="consent-yes">Allow ads</button>
+    </div>
+  </div>
+
+  <script src="js/ads.js"></script>
   <script src="js/hub.js"></script>
 </body>
 </html>

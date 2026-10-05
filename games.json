@@ -1,49 +1,49 @@
 {
   "site": {
     "name": "Arcade Hub",
-    "tagline": "Small games. Big fun. Free to play in your browser.",
+    "tagline": "Select your game",
     "host": "menj.buzz",
     "tipUrl": "",
-    "tipLabel": "Support the arcade"
+    "tipLabel": "Support the arcade",
+    "eyebrow": "Now playing",
+    "title": "Arcade Hub"
   },
   "games": [
     {
       "id": "beberd",
       "status": "live",
       "path": "beberd/",
-      "category": "Flyers",
       "title": "Beberd",
       "tagline": "Help Hamilton cross the Great Pipes.",
-      "badges": [
-        "Daily challenge",
-        "Power-ups",
-        "A story",
-        "Verified scores",
-        "Free to play"
-      ],
       "thumbnail": "img/cards/beberd.png"
     },
     {
       "id": "pixel-run",
       "status": "live",
       "path": "pixel-run/",
-      "category": "Runners",
       "title": "Pixel Run",
       "tagline": "Pick a hero. Outrun the desert.",
-      "badges": [
-        "Daily challenge",
-        "Four heroes",
-        "Power-ups",
-        "Stories",
-        "Free to play"
-      ],
       "thumbnail": "img/cards/pixel-run.png"
     },
     {
       "id": "coming-soon-1",
       "status": "soon",
       "title": "Coming soon",
-      "tagline": "Another game is on its way."
+      "tagline": "A new adventure awaits."
     }
-  ]
+  ],
+  "ads": {
+    "enabled": false,
+    "client": "",
+    "slots": {
+      "banner": {
+        "id": "",
+        "enabled": true
+      },
+      "card": {
+        "id": "",
+        "enabled": true
+      }
+    }
+  }
 }
