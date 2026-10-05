@@ -43,9 +43,16 @@
         <h2 id="games-heading">Games</h2>
         <div id="filters" class="tabs" role="tablist" aria-label="Filter games" hidden></div>
       </div>
+      <div class="finder">
+        <label class="search"><span class="sr">Search games</span>
+          <input id="search" type="search" placeholder="Search games" autocomplete="off">
+        </label>
+        <div id="tags" class="chipbar" role="group" aria-label="Filter by tag" hidden></div>
+      </div>
       <div id="grid" class="grid" aria-live="polite">
         <p class="loading">Loading games…</p>
       </div>
+      <p id="empty" class="loading" hidden>No games match. Clear the search or pick another tag.</p>
       <noscript><p class="loading">The arcade needs JavaScript to list the games.</p></noscript>
     </section>
   </main>

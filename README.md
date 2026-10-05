@@ -10,11 +10,12 @@ index.html        page shell (settings dialog included)
 games.json        site info + the list of games
 css/hub.css       layout and colour schemes (CSS variables)
 js/theme.js       applies saved theme before first paint
-js/hub.js         builds the grid, filters, settings dialog
+js/hub.js         builds the grid, filters, search, settings dialog
 img/              favicon, share image, card thumbnails (img/cards/<slug>.png)
+requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
 
-Games live in their own folders next to this one (`/arcade/<slug>/`). None are added yet.
+Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/` and `pixel-run/`.
 
 ## Adding a game
 
@@ -30,6 +31,9 @@ Use `"status": "soon"` for a placeholder tile. The hub fetches `<path>game.json`
 lets its `title`, `tagline`, `badges` and `thumbnail` override the entry above, so a
 game can keep its own blurb current. If that file is missing, the `games.json` data is used.
 Category filter tabs appear automatically once there are two or more categories.
+A game's `game.json` can also supply `summary`, `tags` and `features` (shown as badges when
+there is no `badges` list). Tags become chips and, with the title, tagline and summary, feed
+the search box. Paths in `game.json` (thumbnail etc.) are relative to the game's folder.
 
 ## Best scores
 
@@ -39,7 +43,9 @@ Games write to one shared `localStorage` key, `arcade.stats`:
 { "<game id>": { "best": 1234, "plays": 5, "last": 900, "lastPlayed": 1700000000000 } }
 ```
 
-The hub shows `best` on the card.
+The hub shows `best` (and `plays`) on the card. Games only write their own entry and never
+record god-mode runs. Games also share the player's display name under `arcade_name`.
+`requirements/pixel-run.yml` lists what Pixel Run needs to work fully alongside Beberd.
 
 ## Themes and settings
 

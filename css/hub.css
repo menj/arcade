@@ -109,6 +109,22 @@ a { color: inherit; }
 .tabs button[aria-selected="true"] { background: var(--surface-2); color: var(--text); border-color: var(--accent); }
 .tabs button:hover { color: var(--text); }
 
+/* search + tag chips */
+.finder { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 18px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.search input {
+  width: min(100%, 260px); padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--text); font: inherit; font-size: 0.9rem;
+}
+.search input::placeholder { color: var(--muted); }
+.chipbar { display: flex; flex-wrap: wrap; gap: 6px; }
+.chipbar button {
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent;
+  color: var(--muted); font: inherit; font-size: 0.8rem; cursor: pointer;
+}
+.chipbar button:hover { color: var(--text); }
+.chipbar button[aria-pressed="true"] { background: var(--surface-2); color: var(--text); border-color: var(--accent); }
+
 /* game cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 20px; padding-bottom: 56px; }
 .loading { color: var(--muted); grid-column: 1 / -1; }
