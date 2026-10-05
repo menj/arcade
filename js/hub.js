@@ -1,5 +1,5 @@
 /*
-  Arcade hub.
+  Arcade Hub.
 
   Reads games.json, asks each live game for its own game.json (so titles,
   taglines and thumbnails stay in the game's folder), and draws one card per
