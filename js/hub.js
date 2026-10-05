@@ -20,6 +20,7 @@
 
   var $ = function (id) { return document.getElementById(id); };
   var grid = $('grid');
+  var state = { category: '', tag: '', q: '' };
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -30,13 +31,16 @@
   function stats() {
     try { return JSON.parse(localStorage.getItem('arcade.stats') || '{}') || {}; } catch (e) { return {}; }
   }
+  function nice(t) { return String(t).replace(/-/g, ' ').replace(/^./, function (c) { return c.toUpperCase(); }); }
   function safeUrl(u) { return /^https?:\/\//i.test(u || '') ? u : ''; }
 
   /* ---------- cards ---------- */
-  function liveCard(g, best) {
+  function liveCard(g, mine) {
     var card = el('a', 'card');
     card.href = g.path;
     card.dataset.category = g.category || '';
+    card.dataset.tags = (g.tags || []).join('|');
+    card.dataset.hay = [g.title, g.tagline, g.summary, (g.tags || []).join(' ')].join(' ').toLowerCase();
 
     var thumb = el('div', 'thumb');
     function placeholder() {
@@ -69,9 +73,10 @@
       body.appendChild(chips);
     }
     var meta = el('div', 'meta');
-    if (best > 0) {
+    if (mine && mine.best > 0) {
       var b = el('span', 'best', 'Your best: ');
-      b.appendChild(el('strong', '', String(best)));
+      b.appendChild(el('strong', '', String(mine.best)));
+      if (mine.plays > 1) b.appendChild(document.createTextNode(' \u00b7 ' + mine.plays + ' plays'));
       meta.appendChild(b);
     }
     meta.appendChild(el('span', 'play', 'Play ›'));
@@ -84,6 +89,7 @@
   function soonCard(g) {
     var card = el('div', 'card soon');
     card.dataset.category = '*';
+    card.dataset.soon = '1';
     var thumb = el('div', 'thumb');
     thumb.appendChild(el('span', 'q', '?'));
     card.appendChild(thumb);
@@ -94,28 +100,74 @@
     return card;
   }
 
-  /* ---------- filters (shown only when there is more than one category) ---------- */
-  function buildFilters(games) {
-    var cats = [];
-    games.forEach(function (g) { if (g.status === 'live' && g.category && cats.indexOf(g.category) < 0) cats.push(g.category); });
-    var box = $('filters');
-    if (cats.length < 2) { box.hidden = true; return; }
-    box.hidden = false;
-    var all = ['All'].concat(cats);
-    all.forEach(function (name, i) {
-      var b = el('button', '', name);
-      b.type = 'button';
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-      b.addEventListener('click', function () {
-        box.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
-        grid.querySelectorAll('.card').forEach(function (c) {
-          var show = i === 0 || c.dataset.category === name;
-          c.hidden = !show;
-        });
-      });
-      box.appendChild(b);
+  /* ---------- filters: category tabs, tag chips and search all combine ---------- */
+  function applyFilters() {
+    var shown = 0;
+    var narrowed = !!(state.category || state.tag || state.q);
+    grid.querySelectorAll('.card').forEach(function (c) {
+      var show;
+      if (c.dataset.soon) {
+        show = !narrowed; // placeholders only show on the unfiltered grid
+      } else {
+        show = (!state.category || c.dataset.category === state.category) &&
+               (!state.tag || ('|' + c.dataset.tags + '|').indexOf('|' + state.tag + '|') > -1) &&
+               (!state.q || c.dataset.hay.indexOf(state.q) > -1);
+        if (show) shown++;
+      }
+      c.hidden = !show;
     });
+    $('empty').hidden = shown !== 0;
+  }
+
+  function buildFilters(games) {
+    var live = games.filter(function (g) { return g.status === 'live'; });
+
+    var cats = [];
+    live.forEach(function (g) { if (g.category && cats.indexOf(g.category) < 0) cats.push(g.category); });
+    var box = $('filters');
+    if (cats.length < 2) { box.hidden = true; }
+    else {
+      box.hidden = false;
+      ['All'].concat(cats).forEach(function (name, i) {
+        var b = el('button', '', name);
+        b.type = 'button';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        b.addEventListener('click', function () {
+          box.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+          state.category = i === 0 ? '' : name;
+          applyFilters();
+        });
+        box.appendChild(b);
+      });
+    }
+
+    var all = {};
+    live.forEach(function (g) { (g.tags || []).forEach(function (t) { all[t] = true; }); });
+    var names = Object.keys(all).sort();
+    var tagBox = $('tags');
+    if (live.length < 2 || !names.length) { tagBox.hidden = true; }
+    else {
+      tagBox.hidden = false;
+      names.forEach(function (t) {
+        var b = el('button', '', nice(t));
+        b.type = 'button';
+        b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', function () {
+          state.tag = state.tag === t ? '' : t;
+          tagBox.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+          if (state.tag) b.setAttribute('aria-pressed', 'true');
+          applyFilters();
+        });
+        tagBox.appendChild(b);
+      });
+    }
+
+    var search = $('search');
+    if (live.length < 2) { search.parentNode.hidden = true; }
+    else {
+      search.addEventListener('input', function () { state.q = search.value.trim().toLowerCase(); applyFilters(); });
+    }
   }
 
   /* ---------- load ---------- */
@@ -127,7 +179,10 @@
         var g = Object.assign({}, entry);
         if (m.title) g.title = m.title;
         if (m.tagline) g.tagline = m.tagline;
+        if (m.summary) g.summary = m.summary;
+        if (Array.isArray(m.tags)) g.tags = m.tags;
         if (Array.isArray(m.badges) && m.badges.length) g.badges = m.badges;
+        else if (Array.isArray(m.features) && m.features.length) g.badges = m.features.map(nice);
         g.fallbackThumb = entry.thumbnail;
         g.thumb = m.thumbnail ? entry.path + m.thumbnail : entry.thumbnail;
         return g;
@@ -155,10 +210,10 @@
           var s = stats();
           grid.textContent = '';
           list.forEach(function (g) {
-            var best = (s[g.id] && s[g.id].best) || 0;
-            grid.appendChild(g.status === 'live' ? liveCard(g, best) : soonCard(g));
+            grid.appendChild(g.status === 'live' ? liveCard(g, s[g.id]) : soonCard(g));
           });
           buildFilters(list);
+          applyFilters();
         });
       })
       .catch(function () {
