@@ -8,9 +8,10 @@ original TTF to WOFF2 with no other changes. Used for the title, labels and butt
 Only freely licensed fonts belong here, because this repository is public. Commercial fonts need a web-font
 licence and should not be committed.
 
-## Sabon Next LT (licensed, not in the repo)
+## Sabon Next LT (licensed)
 
-Tagline and consent text use **Sabon Next LT** (Monotype). It is a commercial font, so `fonts/SabonNextLT.woff2`
-is git-ignored and must be uploaded to the server's `/arcade/fonts/` folder by hand, under your web-font licence.
-Without the file the hub falls back to Special Elite, so nothing breaks. If your licence allows publishing the file
-in a public repository, remove the line from `.gitignore` and commit it.
+Tagline and consent text use **Sabon Next LT**, (c) 2002-2015, 2018 Monotype GmbH, used here under the site
+owner's web-font licence. `SabonNextLT.woff2` is the Regular style converted from TTF to WOFF2 with no other
+changes. It is a commercial font and is **not** open source: this repository is public, so do not reuse the file
+elsewhere, and keep it out of forks you do not control. If the licence is ever revoked or lapses, delete the file;
+the CSS falls back to Special Elite and nothing breaks.
