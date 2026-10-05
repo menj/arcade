@@ -1,0 +1,27 @@
+{
+  "site": {
+    "name": "Arcade",
+    "tagline": "Small games. Big fun. Free to play in your browser.",
+    "host": "menj.buzz",
+    "tipUrl": "",
+    "tipLabel": "Support the arcade"
+  },
+  "games": [
+    {
+      "id": "pixel-run",
+      "status": "live",
+      "path": "pixel-run/",
+      "category": "Runners",
+      "title": "Pixel Run",
+      "tagline": "Pick a hero. Outrun the desert.",
+      "badges": ["Daily challenge", "Four heroes", "Power-ups", "Stories", "Free to play"],
+      "thumbnail": "img/cards/pixel-run.png"
+    },
+    {
+      "id": "coming-soon-1",
+      "status": "soon",
+      "title": "Coming soon",
+      "tagline": "Another game is on its way."
+    }
+  ]
+}

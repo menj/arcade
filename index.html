@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Arcade — Free Browser Games</title>
+  <meta name="description" content="A small arcade of free browser games. Pick a game, beat your best score and come back for the daily challenge.">
+  <meta name="theme-color" content="#0d0221">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Arcade">
+  <meta property="og:description" content="Small games. Big fun. Free to play in your browser.">
+  <!-- For share previews, replace this with the full https:// address of img/og.png once published. -->
+  <meta property="og:image" content="img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/hub.css">
+  <script src="js/theme.js"></script>
+</head>
+<body>
+  <a class="skip" href="#games">Skip to the games</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="brand" href="./" aria-label="Arcade home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name" id="site-name">Arcade</span>
+      </a>
+      <button id="open-settings" class="icon-btn" type="button" aria-haspopup="dialog" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.7 7.7 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.7 7.7 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1l.4 2.6h4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <h1 id="hero-title">Pick a game.<br>Beat your best.</h1>
+      <p id="hero-tagline" class="lede">Small games. Big fun. Free to play in your browser.</p>
+    </section>
+
+    <section class="wrap" id="games" aria-labelledby="games-heading">
+      <div class="section-head">
+        <h2 id="games-heading">Games</h2>
+        <div id="filters" class="tabs" role="tablist" aria-label="Filter games" hidden></div>
+      </div>
+      <div id="grid" class="grid" aria-live="polite">
+        <p class="loading">Loading games…</p>
+      </div>
+      <noscript><p class="loading">The arcade needs JavaScript to list the games.</p></noscript>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-row">
+      <span id="foot-host">menj.buzz</span>
+      <a id="tip" class="tip" href="#" hidden>Support the arcade</a>
+      <span class="muted">Scores stay on your device unless a game has a leaderboard.</span>
+    </div>
+  </footer>
+
+  <dialog id="settings" aria-labelledby="settings-title">
+    <form method="dialog" class="dlg">
+      <header class="dlg-head">
+        <h2 id="settings-title">Settings</h2>
+        <button class="icon-btn" value="close" aria-label="Close settings">×</button>
+      </header>
+      <div class="tabs" role="tablist" aria-label="Settings sections">
+        <button type="button" role="tab" id="tab-look" aria-controls="panel-look" aria-selected="true">Appearance</button>
+        <button type="button" role="tab" id="tab-access" aria-controls="panel-access" aria-selected="false" tabindex="-1">Accessibility</button>
+      </div>
+      <div class="dlg-body">
+        <div role="tabpanel" id="panel-look" aria-labelledby="tab-look">
+          <fieldset class="swatches">
+            <legend>Colour scheme</legend>
+            <div id="scheme-list"></div>
+          </fieldset>
+        </div>
+        <div role="tabpanel" id="panel-access" aria-labelledby="tab-access" hidden>
+          <label class="switch"><input type="checkbox" id="opt-motion"><span>Reduce motion</span></label>
+          <label class="switch"><input type="checkbox" id="opt-text"><span>Larger text</span></label>
+        </div>
+      </div>
+      <footer class="dlg-foot"><button class="btn" value="close">Done</button></footer>
+    </form>
+  </dialog>
+
+  <script src="js/hub.js"></script>
+</body>
+</html>
