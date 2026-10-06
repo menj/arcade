@@ -16,7 +16,13 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const at = (f) => resolve(root, f);
 const data = JSON.parse(readFileSync(at('build/ai-data.json'), 'utf8'));
-const games = (JSON.parse(readFileSync(at('games.json'), 'utf8')).games || []).filter((g) => g.status === 'live');
+// The hub lets a game's own game.json override its title and tagline, so do the same here.
+const own = (g) => {
+  try { return JSON.parse(readFileSync(at(`${g.path}game.json`), 'utf8')); } catch { return {}; }
+};
+const games = (JSON.parse(readFileSync(at('games.json'), 'utf8')).games || [])
+  .filter((g) => g.status === 'live')
+  .map((g) => { const o = own(g); return { ...g, title: o.title || g.title, tagline: o.tagline || g.tagline }; });
 
 const BASE = data.base.replace(/\/$/, '');
 const lang = data.lang;

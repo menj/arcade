@@ -9,7 +9,7 @@
 schema: 1
 title: Pixel Run <-> Beberd arcade compatibility
 hosting:
-  hub: "       https://menj.buzz/arcade/            # static page: the menj/arcade repo"
+  hub:        https://menj.buzz/arcade/             # static page: the menj/arcade repo
   beberd:     https://menj.buzz/arcade/beberd/
   pixel_run:  https://menj.buzz/arcade/pixel-run/
   isolation:  Each game has its own folder, database (or SQLite file), cookie path and service-worker scope.
@@ -76,7 +76,7 @@ requirements:
     change:
       - Where NAME_KEY ('pixel_run_name') is read, read arcade_name first and fall back to pixel_run_name.
       - Where the name is saved, write both arcade_name and pixel_run_name.
-    touches: [assets/js/game.js (NAME_KEY, ~line 42 and ~1506)]
+    touches: ["assets/js/game.js (NAME_KEY, ~line 42 and ~1506)"]
     acceptance:
       - "Save a name in Beberd, open Pixel Run in the same browser: the name field is prefilled."
       - "Save a name in Pixel Run, open Beberd: prefilled."
@@ -135,7 +135,7 @@ requirements:
       - mulberry32/hashSeed use 32-bit math (Math.imul, >>>). PHP ints are 64-bit; reuse beberd's helpers fbr_i32(), fbr_imul(), fbr_seed_from() verbatim (identical algorithm).
       - Mirror the ORDER of operations in update() exactly, including loop direction when removing items.
       - Use only IEEE-754 doubles; avoid any logic that depends on rendering or real time.
-    touches: [assets/js/game.js, new includes/replay.php, api/submit-score.php, includes/scores.php, sql/ (store replay-derived fields only if needed)]
+    touches: [assets/js/game.js, new includes/replay.php, api/submit-score.php, includes/scores.php, "sql/ (store replay-derived fields only if needed)"]
     acceptance:
       - "Parity harness: play >= 400 real runs in a headless browser (fast-stepping, varied autopilots, every character, normal + daily); PHP replay matches score and tick count on 100% (0 mismatches)."
       - "Tamper tests all rejected: edited score, swapped seed, shifted/removed/added input, wrong character, impossible input rate, huge ticks, malformed JSON, daily run with wrong day or seed."
@@ -219,10 +219,10 @@ beberd_side:
 # Suggested order and definition of done
 # --------------------------------------------------------------------------------------------
 suggested_order:
-  - { step: 1, items: [PR-1, PR-2, PR-9], note: Small, safe, visible straight away. }
+  - { step: 1, items: [PR-1, PR-2, PR-9], note: "Small, safe, visible straight away." }
   - { step: 2, items: [PR-3], note: Fix the offline claim one way or the other. }
   - { step: 3, items: [PR-4], note: Biggest piece; do it behind the parity harness. }
-  - { step: 4, items: [PR-5, PR-6, PR-7, PR-8], note: Optional polish, any order; PR-6 needs PR-4's seeded runs. }
+  - { step: 4, items: [PR-5, PR-6, PR-7, PR-8], note: "Optional polish, any order; PR-6 needs PR-4's seeded runs." }
 
 definition_of_done:
   - Both games open from the hub, each with its own thumbnail, badges and "Your best".

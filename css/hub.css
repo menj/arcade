@@ -134,7 +134,7 @@ a { color: inherit; }
   background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
   box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent);
 }
-.lede { margin: 0; color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.3rem); letter-spacing: 0.1em; }
+.lede { margin: 0; font-family: var(--font-text); color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.3rem); letter-spacing: 0.1em; }
 
 /* game cards: framed, pink top edge fading to a cyan bottom edge */
 .grid {
