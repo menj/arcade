@@ -9,7 +9,7 @@
 schema: 1
 title: Pixel Run <-> Beberd arcade compatibility
 hosting:
-  hub:        https://menj.buzz/arcade/             # static page: the menj/arcade repo
+  hub: "https://menj.buzz/arcade/"   # static page: the menj/arcade repo
   beberd:     https://menj.buzz/arcade/beberd/
   pixel_run:  https://menj.buzz/arcade/pixel-run/
   isolation:  Each game has its own folder, database (or SQLite file), cookie path and service-worker scope.
@@ -220,8 +220,8 @@ beberd_side:
 # --------------------------------------------------------------------------------------------
 suggested_order:
   - { step: 1, items: [PR-1, PR-2, PR-9], note: "Small, safe, visible straight away." }
-  - { step: 2, items: [PR-3], note: Fix the offline claim one way or the other. }
-  - { step: 3, items: [PR-4], note: Biggest piece; do it behind the parity harness. }
+  - { step: 2, items: [PR-3], note: "Fix the offline claim one way or the other." }
+  - { step: 3, items: [PR-4], note: "Biggest piece; do it behind the parity harness." }
   - { step: 4, items: [PR-5, PR-6, PR-7, PR-8], note: "Optional polish, any order; PR-6 needs PR-4's seeded runs." }
 
 definition_of_done:
