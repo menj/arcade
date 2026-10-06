@@ -15,6 +15,7 @@ js/ads.js         Google AdSense: consent, lazy-loaded ad slots (off by default)
 css/ads.css       ad boxes and the consent bar
 fonts/            Special Elite (WOFF2), see fonts/README.md
 img/              favicon, share image, card thumbnails (img/cards/<slug>.png)
+build/            ai-discovery.mjs + ai-data.json: writes the AI discovery files (optional, run by hand)
 requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
 
@@ -82,3 +83,7 @@ Make sure `/arcade` redirects to `/arcade/` so relative paths resolve.
 - nginx: `location = /arcade { return 301 /arcade/; }`
 
 Before launch, set an absolute `og:image` URL in `index.html` and fill `site.tipUrl` in `games.json` if wanted.
+
+## AI discovery files
+
+`node build/ai-discovery.mjs` writes the ten AI Discovery Files (llms.txt, llm.txt, llms.html, ai.txt, ai.json, identity.json, brand.txt, faq-ai.txt, developer-ai.txt, robots-ai.txt, spec v2.2.2) into this folder, so they are served at `menj.buzz/arcade/`. Edit `build/ai-data.json` for policy, FAQs and crawlers; live games are read from `games.json`. Re-run after adding a game and commit the output. The hub itself still has no build step.

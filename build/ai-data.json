@@ -1,0 +1,43 @@
+{
+  "_note": "Source for the arcade's AI discovery files (written to the arcade folder, served at /arcade/). Games come from ../games.json. Run: node build/ai-discovery.mjs. Do not edit the generated files.",
+  "base": "https://menj.buzz/arcade",
+  "name": "Arcade Hub",
+  "owner": "Mohd Elfie Nieshaem Juferi",
+  "parent": "https://menj.buzz/",
+  "lang": "en",
+  "tagline": "A small arcade of free browser games.",
+  "summary": "Arcade Hub is a card grid of small browser games, free to play. Scores stay on the player's device unless a game has a leaderboard.",
+  "contact": { "url": "https://menj.buzz/", "preferred": "Through the contact routes listed on the front page of menj.buzz" },
+  "permissions": {
+    "quote": true, "summarise": true, "index": true, "train": false, "commercial": false,
+    "attributionRequired": true,
+    "citationFormat": "Arcade Hub, menj.buzz/arcade",
+    "restrictions": [
+      { "action": "implyEndorsement", "severity": "must-not", "description": "Imply endorsement, partnership or affiliation with Arcade Hub without verification" },
+      { "action": "reproduceGames", "severity": "must-not", "description": "Reproduce or redistribute the games' code or artwork" }
+    ]
+  },
+  "brand": {
+    "officialName": "Arcade Hub",
+    "alsoKnownAs": ["menj.buzz arcade"],
+    "misspellings": ["Arcade Hubb", "Arcadehub"],
+    "doNotUse": [],
+    "voice": "Plain and playful; short sentences.",
+    "taglines": ["Select your game"]
+  },
+  "faqs": [
+    { "question": "What is Arcade Hub?", "answer": "A free set of small browser games hosted at menj.buzz/arcade/." },
+    { "question": "Do the games need an account?", "answer": "No. Best scores are kept in the browser's local storage on the player's device." },
+    { "question": "Are there ads?", "answer": "Ads are off by default. If enabled, nothing loads from Google until the visitor accepts the consent prompt." }
+  ],
+  "developer": {
+    "platform": "Static site, no CMS and no database",
+    "stack": ["HTML, CSS and vanilla JavaScript", "games.json drives the card grid", "Self-hosted WOFF2 fonts"],
+    "notes": ["Each game lives in its own folder under /arcade/ and ships a game.json manifest.", "Colour schemes are CSS variables selected in a tabbed settings dialog."],
+    "feeds": [{ "label": "Games list (JSON)", "url": "https://menj.buzz/arcade/games.json" }]
+  },
+  "crawlers": {
+    "allowed": ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "Meta-ExternalAgent", "Bingbot", "Googlebot", "Applebot"],
+    "disallowedPaths": []
+  }
+}
