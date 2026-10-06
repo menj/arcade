@@ -52,7 +52,7 @@ record god-mode runs. Games also share the player's display name under `arcade_n
 
 ## Themes and settings
 
-Settings (gear icon) are tabbed: **Appearance** (Auto, Midnight, Daylight, Ocean, Sunset)
+Settings (gear icon) are tabbed: **Appearance** (Auto, Midnight, Daylight, Ocean, Sunset, Minimal)
 and **Accessibility** (reduce motion, larger text). Saved under `arcade.hub.settings`.
 Add a scheme by defining a `[data-theme="name"]` block in `css/hub.css` and listing it in
 `SCHEMES` in `js/hub.js`.
@@ -82,7 +82,7 @@ Make sure `/arcade` redirects to `/arcade/` so relative paths resolve.
 - Apache: default `DirectoryIndex` handles it.
 - nginx: `location = /arcade { return 301 /arcade/; }`
 
-Before launch, set an absolute `og:image` URL in `index.html` and fill `site.tipUrl` in `games.json` if wanted.
+Before launch, fill `site.tipUrl` in `games.json` if wanted.
 
 ## AI discovery files
 
