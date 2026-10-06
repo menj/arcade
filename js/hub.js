@@ -15,7 +15,8 @@
     { id: 'midnight', name: 'Midnight',  bg: '#0a0820', accent: '#ff3c6e' },
     { id: 'daylight', name: 'Daylight',  bg: '#f6f4fb', accent: '#c4167f' },
     { id: 'ocean',    name: 'Ocean',     bg: '#03121d', accent: '#2ee6d6' },
-    { id: 'sunset',   name: 'Sunset',    bg: '#1a0b12', accent: '#ff9a3d' }
+    { id: 'sunset',   name: 'Sunset',    bg: '#1a0b12', accent: '#ff9a3d' },
+    { id: 'minimal',  name: 'Minimal',   bg: '#fafaf8', accent: '#1a1a1a' }
   ];
 
   var $ = function (id) { return document.getElementById(id); };
@@ -48,10 +49,12 @@
       img.alt = '';
       img.loading = 'lazy';
       img.decoding = 'async';
+      var triedFallback = false;
       img.onerror = function () {
-        // the game's own thumbnail is missing: use the hub's copy, then a plain tile
-        if (g.fallbackThumb && img.src.indexOf(g.fallbackThumb) === -1) img.src = g.fallbackThumb;
-        else placeholder();
+        // the game's own thumbnail is missing: use the hub's copy once, then a plain tile
+        if (g.fallbackThumb && !triedFallback) { triedFallback = true; img.src = g.fallbackThumb; return; }
+        img.onerror = null;
+        placeholder();
       };
       img.src = g.thumb;
       thumb.appendChild(img);
@@ -174,20 +177,20 @@
     var tabs = [$('tab-look'), $('tab-access'), $('tab-privacy')];
     var panels = [$('panel-look'), $('panel-access'), $('panel-privacy')];
     function visible() { return tabs.filter(function (t) { return !t.hidden; }); }
-    function select(i) {
+    function select(i, focus) {
       tabs.forEach(function (t, j) {
         t.setAttribute('aria-selected', j === i ? 'true' : 'false');
         t.tabIndex = j === i ? 0 : -1;
         panels[j].hidden = j !== i;
       });
-      tabs[i].focus();
+      if (focus) tabs[i].focus();
     }
     tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { select(i); });
+      t.addEventListener('click', function () { select(i, true); });
       t.addEventListener('keydown', function (e) {
         var v = visible(), at = v.indexOf(t);
-        if (e.key === 'ArrowRight') { e.preventDefault(); select(tabs.indexOf(v[(at + 1) % v.length])); }
-        if (e.key === 'ArrowLeft') { e.preventDefault(); select(tabs.indexOf(v[(at + v.length - 1) % v.length])); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); select(tabs.indexOf(v[(at + 1) % v.length]), true); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); select(tabs.indexOf(v[(at + v.length - 1) % v.length]), true); }
       });
     });
 

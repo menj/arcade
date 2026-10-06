@@ -17,7 +17,8 @@
 }
 
 /* Arcade hub: retro neon, themeable through CSS variables.
-   A colour scheme is just a block of variables under [data-theme]. Add a scheme
+   A colour scheme is just a block of variables under [data-resolved] (theme.js sets it
+   from the saved scheme; "auto" resolves to midnight or daylight from the system). Add a scheme
    here and list it in SCHEMES in js/hub.js.
    --accent   = hot colour (title glow, card top edge)
    --accent-2 = cool colour (eyebrow, Play link, card bottom edge) */
@@ -42,27 +43,28 @@
   --glow: rgba(255, 255, 255, 0.55);
   --shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.8);
 }
-[data-theme="daylight"] {
+[data-resolved="daylight"] {
   --bg: #f4f1fb; --bg-2: #e8e1f7; --surface: #ffffff; --surface-2: #efeaf8; --text: #1c1530; --muted: #5e5778;
   --line: #d9d1ec; --accent: #c4167f; --accent-2: #1479a8; --on-accent: #ffffff;
   --glow: rgba(196, 22, 127, 0.25); --shadow: 0 18px 36px -26px rgba(40, 20, 80, 0.4);
 }
-[data-theme="ocean"] {
+[data-resolved="ocean"] {
   --bg: #03121d; --bg-2: #062a40; --surface: #0a2233; --surface-2: #0f2e44; --text: #e6f4ff; --muted: #7fa6bf;
   --line: #17384d; --accent: #2b86c5; --accent-2: #2ee6d6; --on-accent: #032028;
 }
-[data-theme="sunset"] {
+[data-resolved="sunset"] {
   --bg: #1a0b12; --bg-2: #2e0f22; --surface: #2a1220; --surface-2: #361a2b; --text: #fff1ea; --muted: #c99a8c;
   --line: #4a2335; --accent: #ff3c6e; --accent-2: #ff9a3d; --on-accent: #2a0d00;
 }
-/* "auto" follows the system: Midnight by default, Daylight for light systems */
-@media (prefers-color-scheme: light) {
-  [data-theme="auto"] {
-    --bg: #f4f1fb; --bg-2: #e8e1f7; --surface: #ffffff; --surface-2: #efeaf8; --text: #1c1530; --muted: #5e5778;
-    --line: #d9d1ec; --accent: #c4167f; --accent-2: #1479a8; --on-accent: #ffffff;
-    --glow: rgba(196, 22, 127, 0.25); --shadow: 0 18px 36px -26px rgba(40, 20, 80, 0.4);
-  }
+[data-resolved="minimal"] {
+  --bg: #fafaf8; --bg-2: #fafaf8; --surface: #ffffff; --surface-2: #f1f1ee; --text: #1a1a1a; --muted: #6b6b66;
+  --line: #e2e2dd; --accent: #1a1a1a; --accent-2: #3a6ea5; --on-accent: #ffffff;
+  --glow: transparent; --shadow: 0 10px 28px -22px rgba(0, 0, 0, 0.35);
 }
+/* Minimal: no perspective grid, no glow */
+[data-resolved="minimal"] body::after { display: none; }
+[data-resolved="minimal"] .hero h1, [data-resolved="minimal"] .eyebrow { text-shadow: none; }
+[data-resolved="minimal"] .rule { box-shadow: none; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }

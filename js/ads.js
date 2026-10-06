@@ -85,8 +85,7 @@
       box.dataset.slot = 'banner';
       wrap.appendChild(box);
       var main = document.querySelector('main');
-      main.appendChild(wrap);
-      watch(box);
+      if (main) { main.appendChild(wrap); watch(box); }
     }
   }
 
@@ -94,6 +93,10 @@
     document.querySelectorAll('[data-ad-box]').forEach(function (n) { n.remove(); });
     if (io) io.disconnect();
     io = null;
+    // withdrawn consent: drop the loaded script too, so nothing new is requested
+    document.querySelectorAll('script[src*="pagead2.googlesyndication.com"]').forEach(function (n) { n.remove(); });
+    scriptLoaded = false;
+    try { delete window.adsbygoogle; } catch (e) { window.adsbygoogle = undefined; }
   }
 
   function setConsent(on) {
