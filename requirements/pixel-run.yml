@@ -135,7 +135,7 @@ requirements:
       - mulberry32/hashSeed use 32-bit math (Math.imul, >>>). PHP ints are 64-bit; reuse beberd's helpers fbr_i32(), fbr_imul(), fbr_seed_from() verbatim (identical algorithm).
       - Mirror the ORDER of operations in update() exactly, including loop direction when removing items.
       - Use only IEEE-754 doubles; avoid any logic that depends on rendering or real time.
-    touches: [assets/js/game.js, new includes/replay.php, api/submit-score.php, includes/scores.php, sql/ (store replay-derived fields only if needed)]
+    touches: [assets/js/game.js, new includes/replay.php, api/submit-score.php, includes/scores.php, "sql/ (store replay-derived fields only if needed)"]
     acceptance:
       - "Parity harness: play >= 400 real runs in a headless browser (fast-stepping, varied autopilots, every character, normal + daily); PHP replay matches score and tick count on 100% (0 mismatches)."
       - "Tamper tests all rejected: edited score, swapped seed, shifted/removed/added input, wrong character, impossible input rate, huge ticks, malformed JSON, daily run with wrong day or seed."

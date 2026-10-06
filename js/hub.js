@@ -157,7 +157,9 @@
       input.checked = cur.scheme === sc.id;
       input.addEventListener('change', function () { ArcadeTheme.set({ scheme: sc.id }); });
       var dot = el('span', 'dot');
-      dot.style.background = 'linear-gradient(135deg,' + sc.bg + ' 50%,' + sc.accent + ' 50%)';
+      var light = sc.id === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches;
+      dot.style.background = light ? 'linear-gradient(135deg,#f4f1fb 50%,#c4167f 50%)'
+        : 'linear-gradient(135deg,' + sc.bg + ' 50%,' + sc.accent + ' 50%)';
       label.append(input, dot, el('span', '', sc.name));
       list.appendChild(label);
     });

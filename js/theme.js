@@ -28,6 +28,10 @@
     root.setAttribute('data-theme', s.scheme);
     if (s.motion) root.setAttribute('data-motion', 'reduce'); else root.removeAttribute('data-motion');
     root.style.setProperty('--text-scale', s.text ? '1.125' : '1');
+    // keep the mobile browser bar in step with the page background
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var bg = getComputedStyle(root).getPropertyValue('--bg').trim();
+    if (meta && bg) meta.setAttribute('content', bg);
   }
 
   window.ArcadeTheme = {
