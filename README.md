@@ -15,11 +15,13 @@ js/ads.js         Google AdSense: consent, lazy-loaded ad slots (off by default)
 css/ads.css       ad boxes and the consent bar
 fonts/            Special Elite (WOFF2), see fonts/README.md
 img/              favicon, share image, card thumbnails (img/cards/<slug>.png)
+ai.json, ai.txt, llms.txt, llms.html, llm.txt, brand.txt, identity.json, faq-ai.txt, developer-ai.txt, robots-ai.txt
+                  the generated AI discovery files (do not edit by hand, see below)
 build/            ai-discovery.mjs + ai-data.json: writes the AI discovery files (optional, run by hand)
 requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
 
-Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/`, `pixel-run/` and `night-shift/`.
+Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/`, `pixel-run/` and `night-shift/`. Each is its own repository and is deployed on its own; the hub only reads their `game.json`, the shared `arcade.stats` and `arcade_name` keys, and relative URLs. Deploy a new game's folder first, then the hub's `games.json` entry.
 
 ## Adding a game
 
