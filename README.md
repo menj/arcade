@@ -21,7 +21,7 @@ build/            ai-discovery.mjs + ai-data.json: writes the AI discovery files
 requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
 
-Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/`, `pixel-run/` and `night-shift/`. Each is its own repository and is deployed on its own; the hub only reads their `game.json`, the shared `arcade.stats` and `arcade_name` keys, and relative URLs. Deploy a new game's folder first, then the hub's `games.json` entry.
+Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/`, `pixel-run/` and `night-shift/`. Each is its own repository and is deployed on its own; the hub only reads their `game.json`, the shared `arcade.stats` key, and relative URLs (the games share the player's name between themselves under `arcade_name`). Deploy a new game's folder first, then the hub's `games.json` entry.
 
 ## Adding a game
 
