@@ -19,6 +19,7 @@ Arcade Hub is a card grid of small browser games, free to play. Scores stay on t
 
 - [Beberd](https://menj.buzz/arcade/beberd/) - Help Hamilton cross the Great Pipes.
 - [Pixel Run](https://menj.buzz/arcade/pixel-run/) - Pick a hero. Outrun the desert.
+- [Night Shift](https://menj.buzz/arcade/night-shift/) - Five chapters. One night. The arcade is closing.
 
 ## Usage
 

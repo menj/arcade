@@ -26,6 +26,14 @@
       "thumbnail": "img/cards/pixel-run.png"
     },
     {
+      "id": "night-shift",
+      "status": "live",
+      "path": "night-shift/",
+      "title": "Night Shift",
+      "tagline": "Five chapters. One night. The arcade is closing.",
+      "thumbnail": "img/cards/night-shift.png"
+    },
+    {
       "id": "coming-soon-1",
       "status": "soon",
       "title": "Coming soon",

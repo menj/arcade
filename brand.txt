@@ -5,7 +5,7 @@
 
 Lang: en
 Website: [https://menj.buzz/arcade/](https://menj.buzz/arcade/)
-Last Updated: 2026-10-06
+Last Updated: 2026-10-12
 
 ## Official Name
 
