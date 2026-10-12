@@ -19,7 +19,7 @@ build/            ai-discovery.mjs + ai-data.json: writes the AI discovery files
 requirements/     YAML briefs for the games (requirements/pixel-run.yml)
 ```
 
-Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/` and `pixel-run/`.
+Games live in their own folders next to this one (`/arcade/<slug>/`): `beberd/`, `pixel-run/` and `night-shift/`.
 
 ## Adding a game
 
